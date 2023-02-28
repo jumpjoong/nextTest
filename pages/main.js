@@ -10,7 +10,7 @@ function Main() {
 
   useEffect(()=> {
     axios.get(`/api/writeSend`).then(res=> {
-      setPost(res.data)
+      setPost(res.data);
     })
   }, [])
   //글쓰기 버튼 누르면 query로 로그인 정보 넘기기
@@ -22,6 +22,12 @@ function Main() {
   };
   const subTitle = () => {
     
+  }
+  const poketmon = () => {
+    router.push({
+      pathname: "/poketIndex",
+      query: query
+    });
   }
   return (
     <>
@@ -47,6 +53,7 @@ function Main() {
         </tbody>
       </table>
       <button onClick={write}>글쓰기</button>
+      <button onClick={poketmon}>도감 페이지</button>
     </div>
     </>
   )
