@@ -28,9 +28,8 @@ function Login() {
           pathname: "/main",
           query: obj
         })
-      }
-      if (obj.email !== value.email && obj.password !== value.password){
-        alert('다시로그인하게요');
+      } if (obj.email !== value.email && obj.password !== value.password) {
+        alert("계정을 다시 확인해주세요")
       }
     })
   };

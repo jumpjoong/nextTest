@@ -4,7 +4,8 @@ import React, { useEffect, useState } from 'react'
 
 function poketIndex() {
   const [data, setData] = useState([]);
-  const [popup, setPopUp] = useState(false)
+  const [popup, setPopUp] = useState(false);
+  const [key, setKey] = useState();
   const router = useRouter();
   const {query} = useRouter();
 
@@ -14,7 +15,14 @@ function poketIndex() {
 
   function dataGet() {
     axios.get("/api/poke").then(res => {
-      setData(res)
+      let num = res;
+
+      num.data.sort((a, b) => {
+        if (a.id < b.id) {
+          return -1;
+        }
+      })
+      setData(num)
     })
   }
 
@@ -25,27 +33,25 @@ function poketIndex() {
     });
   }
 
-  const popupCon = (key) => {
+  const popupCon = (id) => {
     setPopUp(!popup);
-    abc(key)
+    setKey(id)
   }
 
-  function abc () {
 
+  const abc = () => {
+    //키 값 db에 보내면 끝
+    axios.put(`/api/poke`, {key}, query)
   }
 
-  // const buyPoke = (key) => {
-  //   console.log(e)
-  // }
-  ///popup창 컴포넌트로 만들고 구매하기 눌렀을 시 프롭스로 key값 넘기거나 query로 넘겨서 데이터 받고 yes 누르면 axios.put 실행과 키값 넘김
   return (
     <>
     <div className={popup ? "popup on" : "popup"}>
       <div>
         <p>구매하시겠습니까?</p>
         <div className="choice">
-          <p onClick={(y)=>abc(y)}>예</p>
-          <p onClick={(n)=>abc(n)}>아니오</p>
+          <p onClick={()=>abc()}>예</p>
+          <p onClick={()=>popupCon()}>아니오</p>
         </div>
       </div>
     </div>
@@ -55,11 +61,11 @@ function poketIndex() {
     </div>
       {
         data.data && data.data.map((obj, key) => {
-          return <div key={key}>
+          return <div key={obj.id}>
             <figure>
               <img src={`${obj.card_url}`} alt="이미지"/>
               <figcaption>
-                <p onClick={()=>popupCon(key)}>구매하기</p>
+                <p onClick={()=>popupCon(obj.id)}>구매하기</p>
               </figcaption>
             </figure>
           </div>
