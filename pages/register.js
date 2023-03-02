@@ -15,6 +15,11 @@ function Register() {
   const send = (e) => {
     e.preventDefault();
     axios.post(`/api/`, {...value});
+    redCard();
+  }
+  //alert 창 띄우고 창 새로고침
+  function redCard() {
+    alert('회원가입완료!');
     router.push("/");
   }
   return (

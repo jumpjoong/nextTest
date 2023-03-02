@@ -29,6 +29,9 @@ function Main() {
       query: query
     });
   }
+  const logOut = () => {
+    router.push("/")
+  }
   return (
     <>
     <div>
@@ -54,6 +57,7 @@ function Main() {
       </table>
       <button onClick={write}>글쓰기</button>
       <button onClick={poketmon}>도감 페이지</button>
+      <button onClick={logOut}>로그아웃</button>
     </div>
     </>
   )

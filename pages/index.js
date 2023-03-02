@@ -1,6 +1,6 @@
-import HeadMeta from "@/component/headMeta";
-import Layout from "@/component/layout";
-import List from "@/component/list";
+import HeadMeta from "../component/headMeta";
+import Layout from "../component/layout";
+import List from "../component/list";
 import axios from "axios";
 
 export default function Home( {data, post} ) {
