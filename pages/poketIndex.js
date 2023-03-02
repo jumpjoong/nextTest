@@ -64,7 +64,7 @@ function poketIndex() {
       alert("구매하신 제품입니다.")
     } else {
       setPopUp(!popup);
-      setInit({...initData, id:query.id, name:query.name, have_poke_id:JSON.stringify(id), credit: id.credit})
+      setInit({...initData, id:query.id, name:query.name, have_poke_id:JSON.stringify(id.id), credit: id.credit})
     }
   }
 
