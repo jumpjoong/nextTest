@@ -2,8 +2,6 @@ import { executeQuery } from "./db";
 
 const handler = async (req, res) => {
   const { method, body } = req;
-  //크레딧까지 넘김
-  console.log(body,"")
   // DESC 내림차순
   // ASC 오름차순
   // let data = await executeQuery("insert into test_table (name, email, password) value (?,?,?)", ["김김김", "김김@김김김", "2023"]);

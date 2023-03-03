@@ -2,8 +2,10 @@ import axios from 'axios';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react'
 
-function poketIndex() {
+function poketIndex({data2}) {
+  //query = credit, email, id, name, pw
   const {query} = useRouter();
+  console.log(data2)
   //data는 이미지
   const [data, setData] = useState([]);
   const [popup, setPopUp] = useState(false);
@@ -12,7 +14,6 @@ function poketIndex() {
   const router = useRouter();
   const [list, setList] = useState([]);
   
-
   useEffect(()=> {
     dataGet();
     dataList();
@@ -35,11 +36,6 @@ function poketIndex() {
   //api/poke에 query값 보내고 cus_poke에 have_poke_id를 가져와서 obj.id와 query.id가 일치하면 setlist에 저장
   function dataList() {
     axios.put("/api/poke", query).then(res=> {
-      // let arr = [];
-      // res.data.map((obj)=>{
-      //   arr.push(obj.have_poke_id);
-      // })
-      // setList(res.test);
       res.data.map ((obj)=> {
         try {
           if(obj.id == query.id) {
@@ -63,8 +59,14 @@ function poketIndex() {
     if (list.includes(id.id)) {
       alert("구매하신 제품입니다.")
     } else {
-      setPopUp(!popup);
-      setInit({...initData, id:query.id, name:query.name, have_poke_id:JSON.stringify(id.id), credit: id.credit})
+      // setInit({...initData, id:query.id, name:query.name, have_poke_id:JSON.stringify(id.id), credit: id.credit})
+      if (query.credit < id.credit) {
+        alert('포인트가 모자랍니다!')
+        console.log(query)
+      }else {
+        setPopUp(!popup);
+        setInit({...initData, id:query.id, name:query.name, have_poke_id:JSON.stringify(id.id), credit: id.credit})
+      }
     }
   }
 
@@ -72,9 +74,13 @@ function poketIndex() {
   const no = () => {
     setPopUp(!popup);
   } 
+
   //예 버튼을 누르면 구매하기 누른값을 넘기고 0.5초 후에 새로고침
   const yes = () => {
+    //db에 cus_poke추가
     axios.post(`/api/poke`, initData);
+    //
+    axios.put(`/api/pokeCredit`, initData)
     setTimeout(() => {
       redCard();
     }, 300);
@@ -130,3 +136,10 @@ function poketIndex() {
 }
 
 export default poketIndex
+
+// export async function getServerSideProps() {
+//   const res = await axios.get(`/api/user`);
+//   const data2 = await res.json();
+
+//   return {props: {data2}}
+// }

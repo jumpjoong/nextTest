@@ -21,3 +21,4 @@ const executeQuery = async (query, arraParms) => {
 };
 
 module.exports = { executeQuery };
+
